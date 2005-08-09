@@ -1,0 +1,12 @@
+1.010  2005-04-02
+       minor formatting and packaging changes
+
+1.006  2004-04-27
+       fixed Games::Board::Grid to use strings as hash keys, not a LOL
+       added custom chess subclass tests
+
+1.005  2004-04-12
+       added Games::Board::Grid
+
+1.004  2004-03-28
+       first release
