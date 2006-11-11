@@ -1,4 +1,5 @@
-#!/usr/bin/perl
+use strict;
+use warnings;
 
 package Games::Board::Space;
 
@@ -7,6 +8,14 @@ use Carp;
 =head1 NAME
 
 Games::Board::Space -- a parent class for spaces on game board
+
+=head1 VERSION
+
+ $Id$
+
+=cut
+
+our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -28,11 +37,6 @@ This module provides a base class for representing the spaces on a game board.
 
 =cut
 
-use strict;
-use warnings;
-
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.3 $ =~ /(\d+)/g;
-
 =head1 METHODS
 
 =over
@@ -48,7 +52,8 @@ sub new {
   my %args  = @_;
 
   return unless $args{id};
-  croak "no board supplied in space creation" unless UNIVERSAL::isa($args{board}, 'Games::Board');
+  croak "no board supplied in space creation"
+    unless eval { $args{board}->isa('Games::Board') };
 
   my $space = {
 	id    => $args{id},
@@ -128,7 +133,7 @@ This method will place the given piece onto this space.
 sub receive {
   my ($self, $piece) = @_;
 
-  return unless UNIVERSAL::isa($piece,'Games::Board::Piece');
+  return unless eval { $piece->isa('Games::Board::Piece') };
   return if $self->contains($piece);
 
   $piece->{current_space} = $self->id;
@@ -141,7 +146,7 @@ sub receive {
 
 implement this dist!
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
 
@@ -155,3 +160,5 @@ the same terms as Perl itself.
 See http://www.perl.com/perl/misc/Artistic.html
 
 =cut
+
+1;

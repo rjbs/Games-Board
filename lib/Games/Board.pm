@@ -1,5 +1,5 @@
-#!/usr/bin/perl
-
+use strict;
+use warnings;
 package Games::Board;
 
 use Carp;
@@ -9,6 +9,14 @@ use Games::Board::Piece;
 =head1 NAME
 
 Games::Board -- a parent class for board games
+
+=head1 VERSION
+
+ $Id$
+
+=cut
+
+our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -29,11 +37,6 @@ Games::Board -- a parent class for board games
 This module provides a base class for representing board games.  
 
 =cut
-
-use strict;
-use warnings;
-
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.10 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -85,7 +88,7 @@ sub add_space {
 
 	$space = $board->spaceclass->new(board => $board, %args);
 
-	return unless UNIVERSAL::isa($space,'Games::Board::Space');
+	return unless eval { $space->isa('Games::Board::Space') };
 
 	if ($board->space($space->id)) {
 	carp "space '" . $space->id . "' already exists on board";
@@ -128,7 +131,7 @@ sub add_piece {
 	$piece = $board->piececlass->new(board => $board, @_);
 	$piece ||= shift;
 
-	return unless UNIVERSAL::isa($piece,'Games::Board::Piece');
+	return unless eval { $piece->isa('Games::Board::Piece') };
 
 	return $piece;
 }
@@ -157,7 +160,7 @@ L<Games::Board::Grid>
 
 =back
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
 

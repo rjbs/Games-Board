@@ -1,4 +1,5 @@
-#!/usr/bin/perl
+use strict;
+use warnings;
 
 package Games::Board::Piece;
 
@@ -7,6 +8,14 @@ use Carp;
 =head1 NAME
 
 Games::Board::Piece -- a parent class for board game pieces
+
+=head1 VERSION
+
+ $Id$
+
+=cut
+
+our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -28,11 +37,6 @@ This module provides a base class for representing the pieces in a board game.
 
 =cut
 
-use strict;
-use warnings;
-
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.4 $ =~ /(\d+)/g;
-
 =head1 METHODS
 
 =over
@@ -47,7 +51,7 @@ sub new {
   my ($class, %args) = @_;
 
   return unless $args{id};
-  return unless UNIVERSAL::isa($args{board},'Games::Board');
+  return unless eval { $args{board}->isa('Games::Board') };
 
   my $piece = { %args };
 
@@ -121,7 +125,7 @@ sub move {
 	return unless $piece->current_space;
 	return unless $space = $piece->current_space->dir($which);
   } elsif ($how eq 'to') {
-	return unless UNIVERSAL::isa($which,'Games::Board::Space');
+	return unless eval { $which->isa('Games::Board::Space') };
 	$space = $which;
   } else {
 	return;
@@ -136,7 +140,7 @@ sub move {
 
 implement this dist!
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
 
@@ -150,3 +154,5 @@ the same terms as Perl itself.
 See http://www.perl.com/perl/misc/Artistic.html
 
 =cut
+
+1;

@@ -1,7 +1,7 @@
-#!/usr/bin/perl
+use strict;
+use warnings;
 
 package Games::Board::Grid;
-
 use base qw(Games::Board);
 
 use Carp;
@@ -9,6 +9,14 @@ use Carp;
 =head1 NAME
 
 Games::Board::Grid -- a grid-shaped gameboard
+
+=head1 VERSION
+
+ $Id$
+
+=cut
+
+our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -24,11 +32,6 @@ This module provides a base class for representing a board made up of spaces on
 a right-angled grid.
 
 =cut
-
-use strict;
-use warnings;
-
-our $VERSION = sprintf "%d.%03d", q$Revision: 1.3 $ =~ /(\d+)/g;
 
 =head1 METHODS
 
@@ -102,7 +105,7 @@ This method performs the same translation as C<id2index>, but in reverse.
 
 =cut 
 
-sub index2id { join(' ', @{$_[1]}) }
+sub index2id { join(q{ }, @{$_[1]}) }
 
 =item C<< space($id) >>
 
@@ -143,7 +146,7 @@ use base qw(Games::Board::Space);
 
 sub dir_id {
   my ($self, $dir) = @_;
-  return unless UNIVERSAL::isa($dir,'ARRAY');
+  return unless ref $dir eq 'ARRAY';
 
   my $pos = $self->board->id2index($self->id);
   
@@ -161,7 +164,7 @@ sub dir_id {
 
 Lots.  First up: write a TODO list.
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
 
