@@ -1,0 +1,16 @@
+MANIFEST			This list of files
+README
+Changes
+lib/Games/Board.pm
+lib/Games/Board/Grid.pm
+lib/Games/Board/Piece.pm
+lib/Games/Board/Space.pm
+Makefile.PL
+t/board.t
+t/chess-custom.t
+t/chess-grid.t
+t/chess.t
+t/pod.t
+t/pod-coverage.t
+t/perl-critic.t
+LICENSE
