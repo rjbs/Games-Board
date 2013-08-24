@@ -1,21 +1,9 @@
 use strict;
 use warnings;
-
 package Games::Board::Piece;
+# ABSTRACT: a parent class for board game pieces
 
 use Carp;
-
-=head1 NAME
-
-Games::Board::Piece -- a parent class for board game pieces
-
-=head1 VERSION
-
- $Id$
-
-=cut
-
-our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -37,11 +25,7 @@ This module provides a base class for representing the pieces in a board game.
 
 =cut
 
-=head1 METHODS
-
-=over
-
-=item C<< new >>
+=method new
 
 This method constructs a new game piece and returns it.
 
@@ -58,7 +42,7 @@ sub new {
   bless $piece => $class;
 }
 
-=item C<< id >>
+=method id
 
 This returns the piece's id.
 
@@ -69,7 +53,7 @@ sub id {
   $self->{id};
 }
 
-=item C<< board >>
+=method board
 
 This returns the board object to which the piece is related.
 
@@ -80,7 +64,7 @@ sub board {
   $self->{board};
 }
 
-=item C<< current_space_id >>
+=method current_space_id
 
 This returns the id of the space on which the piece currently rests, if any.
 It it's not on any space, it returns undef.
@@ -92,7 +76,7 @@ sub current_space_id {
   $piece->{current_space};
 }
 
-=item C<< current_space >>
+=method current_space
 
 This returns the Space on which the piece currently rests, if any.  It it's not
 on any space, it returns undef.
@@ -105,22 +89,24 @@ sub current_space {
   $piece->board->space($piece->{current_space});
 }
 
-=item C<< move(dir => 'up') >>
+=method move
 
-=item C<< move(to  => $space) >>
+  $piece->move(dir => 'up')
+
+  $piece->move(to  => $space)
 
 This method moves the piece to a new space on the board.  If the method call is
 in the first form, the piece is moved to the space in the given direction from
 the piece's current space.  If the method call is in the second form, and
 C<$space> is a Games::Board::Space object, the piece is moved to that space.
 
-=cut 
+=cut
 
 sub move {
   my $piece = shift;
   my ($how, $which) = @_;
   my $space;
-  
+
   if ($how eq 'dir') {
 	return unless $piece->current_space;
 	return unless $space = $piece->current_space->dir($which);
@@ -130,29 +116,8 @@ sub move {
   } else {
 	return;
   }
-  
+
   $space->receive($piece);
 }
-
-=back
-
-=head1 TODO
-
-implement this dist!
-
-=head1 AUTHOR
-
-Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2003-2004 by Ricardo Signes E<lt>rjbs@cpan.orgE<gt>
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
-
-See http://www.perl.com/perl/misc/Artistic.html
-
-=cut
 
 1;

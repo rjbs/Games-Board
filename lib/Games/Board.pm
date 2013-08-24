@@ -1,22 +1,11 @@
 use strict;
 use warnings;
 package Games::Board;
+# ABSTRACT: a parent class for board games
 
 use Carp;
 use Games::Board::Space;
 use Games::Board::Piece;
-
-=head1 NAME
-
-Games::Board -- a parent class for board games
-
-=head1 VERSION
-
- $Id$
-
-=cut
-
-our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -36,13 +25,7 @@ our $VERSION = '1.011';
 
 This module provides a base class for representing board games.  
 
-=cut
-
-=head1 METHODS
-
-=over
-
-=item C<< new >>
+=method new
 
 This method constructs a new game board and returns it.  As constructed it has
 no spaces or pieces on it.
@@ -59,7 +42,9 @@ sub new {
 	bless $board => $class;
 }
 
-=item C<< space($id) >>
+=method space
+
+  my $space = $board->space($id);
 
 This method returns the space with the given C<$id>.  If no space with that id
 exists, undef is returned.
@@ -73,14 +58,16 @@ sub space {
 	return $board->{spaces}{$space};
 }
 
-=item C<< add_space(%args) >>
+=method add_space
+
+  my $space = $board->add_space(%args);
 
 This method adds a space to the board.  It is passed a hash of attributes to
 use in creating a Games::Board::Space object.  The object is created by calling
 the constructor on the class whose name is returned by the C<spaceclass>
 method.  This class must inherit from Games::Board::Space.
 
-=cut 
+=cut
 
 sub add_space {
 	my ($board, %args) = @_;
@@ -98,7 +85,7 @@ sub add_space {
 	}
 }
 
-=item C<< piececlass >>
+=method piececlass
 
 This method returns the class used for pieces on this board.
 
@@ -106,7 +93,7 @@ This method returns the class used for pieces on this board.
 
 sub piececlass { 'Games::Board::Piece' }
 
-=item C<< spaceclass >>
+=method spaceclass
 
 This method returns the class used for spaces on this board.
 
@@ -114,14 +101,16 @@ This method returns the class used for spaces on this board.
 
 sub spaceclass { 'Games::Board::Space' }
 
-=item C<< add_piece(%args) >>
+=method add_piece
+
+  my $piece = $board->add_piece(%args)
 
 This method adds a piece to the board.  It is passed a hash of attributes to
 use in creating a Games::Board::Piece object.  The object is created by calling
 the constructor on the class whose name is returned by the C<piececlass>
 method.  This class must inherit from Games::Board::Piece.
 
-=cut 
+=cut
 
 sub add_piece {
 	my $board = shift;
@@ -135,44 +124,5 @@ sub add_piece {
 
 	return $piece;
 }
-
-=back
-
-=head1 TODO
-
-Lots.  First up: write a TODO list.
-
-=head1 SEE ALSO
-
-=over 
-
-=item *
-
-L<Games::Board::Piece>
-
-=item *
-
-L<Games::Board::Space>
-
-=item *
-
-L<Games::Board::Grid>
-
-=back
-
-=head1 AUTHOR
-
-Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2003-2004 by Ricardo Signes E<lt>rjbs@cpan.orgE<gt>
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
-
-See http://www.perl.com/perl/misc/Artistic.html
-
-=cut
 
 "Family fun night!";

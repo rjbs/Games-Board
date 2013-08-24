@@ -2,21 +2,10 @@ use strict;
 use warnings;
 
 package Games::Board::Grid;
-use base qw(Games::Board);
+use parent qw(Games::Board);
+# ABSTRACT: a grid-shaped gameboard
 
 use Carp;
-
-=head1 NAME
-
-Games::Board::Grid -- a grid-shaped gameboard
-
-=head1 VERSION
-
- $Id$
-
-=cut
-
-our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -33,11 +22,9 @@ a right-angled grid.
 
 =cut
 
-=head1 METHODS
+=method new
 
-=over
-
-=item C<< new(size => $size) >>
+  my $board = Games::Board::Grid->new(size => $size);
 
 This method constructs a new game board and returns it.  As constructed it has
 no spaces or pieces on it.  The C<size> argument may be an integer, to produce
@@ -58,7 +45,7 @@ sub new {
   $board->init;
 }
 
-=item C<< init >>
+=method init
 
 This method sets up the spaces on the board.
 
@@ -79,13 +66,15 @@ sub init {
   $board;
 }
 
-=item C<< size >>
+=method size
 
 =cut
 
 sub size { (shift)->{size} }
 
-=item C<< id2index($id) >> 
+=method id2index
+
+  my $index = $board->id2index($id);
 
 This method returns the grid location of an identified space, in the format
 C<[$x, $y]>.  In Games::Board::Grid, the index C<[x,y]> becomes the id C<'x
@@ -95,19 +84,23 @@ Reimplementing this method on a subclass can allow the use of idiomatic space
 identifiers on a grid.  (See, for example, the chess-custom.t test in this
 distribution.)
 
-=cut 
+=cut
 
 sub id2index { [ split(/ /,$_[1]) ] }
 
-=item C<< index2id($loc) >> 
+=method index2id
+
+  my $id = $board->index2id($index);
 
 This method performs the same translation as C<id2index>, but in reverse.
 
-=cut 
+=cut
 
 sub index2id { join(q{ }, @{$_[1]}) }
 
-=item C<< space($id) >>
+=method space
+
+  my $space = $board->space($id);
 
 This method returns the space with the given C<$id>.  If no space with that id
 exists, undef is returned.
@@ -121,15 +114,13 @@ sub space {
   return $board->{spaces}{$id};
 }
 
-=item C<< add_space(%param) >>
+=method add_space
 
 This method, provided by Games::Board, will croak immediately if called.
 
-=cut 
+=cut
 
 sub add_space { croak "spaces can't be added to grid board" }
-
-=back
 
 =head2 Games::Board::Grid::Space
 
@@ -142,14 +133,14 @@ and y-offsets.  For example, a knight's move might be represented as:
 =cut
 
 package Games::Board::Grid::Space;
-use base qw(Games::Board::Space);
+use parent qw(Games::Board::Space);
 
 sub dir_id {
   my ($self, $dir) = @_;
   return unless ref $dir eq 'ARRAY';
 
   my $pos = $self->board->id2index($self->id);
-  
+
   my $newpos = [
 	$pos->[0] + $dir->[0],
 	$pos->[1] + $dir->[1]
@@ -159,24 +150,5 @@ sub dir_id {
   return if $newpos->[0] >= $self->board->size->[0] or $newpos->[1] >= $self->board->size->[1];
   return $self->board->index2id($newpos);
 }
-
-=head1 TODO
-
-Lots.  First up: write a TODO list.
-
-=head1 AUTHOR
-
-Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2003-2004 by Ricardo Signes E<lt>rjbs@cpan.orgE<gt>
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
-
-See http://www.perl.com/perl/misc/Artistic.html
-
-=cut
 
 "Family fun night!";

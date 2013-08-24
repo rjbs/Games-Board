@@ -1,21 +1,9 @@
 use strict;
 use warnings;
-
 package Games::Board::Space;
+# ABSTRACT: a parent class for spaces on game board
 
 use Carp;
-
-=head1 NAME
-
-Games::Board::Space -- a parent class for spaces on game board
-
-=head1 VERSION
-
- $Id$
-
-=cut
-
-our $VERSION = '1.011';
 
 =head1 SYNOPSIS
 
@@ -37,11 +25,7 @@ This module provides a base class for representing the spaces on a game board.
 
 =cut
 
-=head1 METHODS
-
-=over
-
-=item C<< new >>
+=method new
 
 This method constructs a new space and returns it.
 
@@ -66,7 +50,7 @@ sub new {
   bless $space => $class;
 }
 
-=item C<< id >>
+=method id
 
 This method returns the id of the space.
 
@@ -78,7 +62,7 @@ sub id {
   return $space->{id};
 }
 
-=item C<< board >>
+=method board
 
 This method returns board on which this space sits.
 
@@ -89,7 +73,9 @@ sub board {
   $space->{board};
 }
 
-=item C<< dir_id($dir) >>
+=method dir_id
+
+  my $id = $space->dir_id($dir);
 
 This method returns the id of the space found in the given direction from this
 space.
@@ -98,11 +84,13 @@ space.
 
 sub dir_id {
   my ($space, $dir) = @_;
-  
+
   return $space->{dir}{$dir} if (ref $space->{dir} eq 'HASH');
 }
 
-=item CC<< dir($dir) >>
+=method dir
+
+  my $new_space = $space->dir($dir);
 
 This method returns the space found in the given direction from this space.
 
@@ -113,7 +101,9 @@ sub dir {
   $space->board->space($space->dir_id($dir));
 }
 
-=item C<< contains($piece) >>
+=method contains
+
+  my $bool = $space->contains($piece);
 
 This method returns a true value if the space contains the passed piece.
 
@@ -124,7 +114,9 @@ sub contains {
   return 1 if grep { $_ eq $piece->id } @{$self->{contents}};
 }
 
-=item C<< receive($piece) >>
+=method receive
+
+  $space->receive($piece);
 
 This method will place the given piece onto this space.
 
@@ -139,26 +131,5 @@ sub receive {
   $piece->{current_space} = $self->id;
   push @{$self->{contents}}, $piece->id;
 }
-
-=back
-
-=head1 TODO
-
-implement this dist!
-
-=head1 AUTHOR
-
-Ricardo SIGNES E<lt>rjbs@cpan.orgE<gt>
-
-=head1 COPYRIGHT
-
-Copyright 2003-2004 by Ricardo Signes E<lt>rjbs@cpan.orgE<gt>
-
-This program is free software; you can redistribute it and/or modify it under
-the same terms as Perl itself.
-
-See http://www.perl.com/perl/misc/Artistic.html
-
-=cut
 
 1;
