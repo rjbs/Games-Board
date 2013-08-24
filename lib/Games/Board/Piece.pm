@@ -12,9 +12,9 @@ use Carp;
   my $board = Games::Board->new;
 
   $board->add_space(
-  	id   => 'go',
-	dir  => { next => 'mediterranean', prev => 'boardwalk' },
-	cost => undef
+    id   => 'go',
+    dir  => { next => 'mediterranean', prev => 'boardwalk' },
+    cost => undef
   );
 
   my $tophat = Games::Board::Piece->new(id => 'tophat')->move(to => 'go');
@@ -108,13 +108,13 @@ sub move {
   my $space;
 
   if ($how eq 'dir') {
-	return unless $piece->current_space;
-	return unless $space = $piece->current_space->dir($which);
+    return unless $piece->current_space;
+    return unless $space = $piece->current_space->dir($which);
   } elsif ($how eq 'to') {
-	return unless eval { $which->isa('Games::Board::Space') };
-	$space = $which;
+    return unless eval { $which->isa('Games::Board::Space') };
+    $space = $which;
   } else {
-	return;
+    return;
   }
 
   $space->receive($piece);

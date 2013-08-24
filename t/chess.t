@@ -8,23 +8,23 @@ my $board = Games::Board->new;
 
 for my $rank ('1' .. '8') {
   for my $file ('a' .. 'h') {
-	my $dir = {};
-	my $id  = $file . $rank;
+    my $dir = {};
+    my $id  = $file . $rank;
 
-	($dir->{up_file}   = $id) =~ tr/a-g/b-h/ unless $file eq 'h';
-	($dir->{down_file} = $id) =~ tr/b-h/a-g/ unless $file eq 'a';
-	$dir->{up_rank}   = $file . ($rank + 1) unless $rank == 8;
-	$dir->{down_rank} = $file . ($rank - 1) unless $rank == 1;
+    ($dir->{up_file}   = $id) =~ tr/a-g/b-h/ unless $file eq 'h';
+    ($dir->{down_file} = $id) =~ tr/b-h/a-g/ unless $file eq 'a';
+    $dir->{up_rank}   = $file . ($rank + 1) unless $rank == 8;
+    $dir->{down_rank} = $file . ($rank - 1) unless $rank == 1;
 
-	$board->add_space(id => $id, dir => $dir)
+    $board->add_space(id => $id, dir => $dir)
   }
 }
 
 for my $rank ('1' .. '8') {
   for my $file ('a' .. 'h') {
-	my $id = $file . $rank;
-	ok($board->space($id),          "$id: exists on the board");
-	is($board->space($id)->id, $id, "$id: correct id");
+    my $id = $file . $rank;
+    ok($board->space($id),          "$id: exists on the board");
+    is($board->space($id)->id, $id, "$id: correct id");
   }
 }
 

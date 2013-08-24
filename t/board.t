@@ -9,8 +9,8 @@ my $board = Games::Board->new;
 isa_ok($board, 'Games::Board');
 
 my $space = $board->add_space(
-  id	=> 'summer',
-  dir	=> { next => 'autumn', prev => 'spring' }
+  id  => 'summer',
+  dir => { next => 'autumn', prev => 'spring' }
 );
 
 isa_ok($space, 'Games::Board::Space');
@@ -18,18 +18,18 @@ isa_ok($space, 'Games::Board::Space');
 isa_ok($board->space('summer'), 'Games::Board::Space');
 
 $board->add_space(
-  id	=> 'autumn',
-  dir	=> { next => 'winter', prev => 'summer' }
+  id  => 'autumn',
+  dir => { next => 'winter', prev => 'summer' }
 );
 
 $board->add_space(
-  id	=> 'winter',
-  dir	=> { next => 'spring', prev => 'autumn' }
+  id  => 'winter',
+  dir => { next => 'spring', prev => 'autumn' }
 );
 
 $board->add_space(
-  id	=> 'spring',
-  dir	=> { next => 'summer', prev => 'winter' }
+  id  => 'spring',
+  dir => { next => 'summer', prev => 'winter' }
 );
 
 isa_ok($board->space('autumn'), 'Games::Board::Space');
