@@ -105,19 +105,21 @@ C<$space> is a Games::Board::Space object, the piece is moved to that space.
 sub move {
   my $piece = shift;
   my ($how, $which) = @_;
-  my $space;
+  my $new_space;
+  my $old_space = $piece->current_space;
 
   if ($how eq 'dir') {
-    return unless $piece->current_space;
-    return unless $space = $piece->current_space->dir($which);
+    return unless $old_space;
+    return unless $new_space = $old_space->dir($which);
   } elsif ($how eq 'to') {
     return unless eval { $which->isa('Games::Board::Space') };
-    $space = $which;
+    $new_space = $which;
   } else {
     return;
   }
 
-  $space->receive($piece);
+  return unless !$old_space || $old_space->take($piece);
+  $new_space->receive($piece);
 }
 
 1;
