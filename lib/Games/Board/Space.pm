@@ -132,4 +132,22 @@ sub receive {
   push @{$self->{contents}}, $piece->id;
 }
 
+=method take
+
+  $space->take($piece);
+
+This method removes the piece from this space.
+
+=cut
+
+sub take {
+  my ($self, $piece) = @_;
+
+  return unless eval { $piece->isa('Games::Board::Piece') };
+  return unless $self->contains($piece);
+
+  delete $piece->{current_space};
+  $self->{contents} = [ grep { $_ ne $piece->id } @{$self->{contents}} ];
+}
+
 1;
