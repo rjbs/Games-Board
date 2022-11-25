@@ -1,6 +1,8 @@
 Revision history for Games-Board
 
 {{$NEXT}}
+
+1.014     2022-11-25 17:09:01-05:00 America/New_York
         - update dist metadata
         - fix a bug with moving/removing pieces (thanks, Kaycie Goodman)
 
